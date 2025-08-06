@@ -1,5 +1,6 @@
 export default function Button({fx,children,...props}){ 
+  let buttonDesign = "active:cursor-pointer hover:cursor-pointer stroke-stone-500"
   return(
-    <button  className="active:cursor-pointer hover:cursor-pointer stroke-stone-500" onClick={fx} {...props}>{children}</button>
+    <button  className={buttonDesign} onClick={fx} {...props}>{children}</button>
   )
 }
