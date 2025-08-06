@@ -1,14 +1,37 @@
 import { useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Button from '../components/Button'
 import Input from '../components/Input'
 export default function Login() {
+  const [errors, setErrors] = useState({})
   const username = useRef();
   const password = useRef();
   const navi = useNavigate()
 
-  function handleFormClick() {
-    
+  function validation() {
+    const usernameForm = username.current.value.trim();
+    const passwordForm = password.current.value.trim();
+
+    setErrors((prev)=>{
+      const newError = {...prev};
+      if(!usernameForm)
+        newError.username ="username invalid";
+      else {
+        delete newError.username;
+      }
+      if(!passwordForm)
+        newError.password="password invalid"
+      else 
+        delete newError.password
+      return newError
+      } 
+    );
+  }
+
+  function handleFormClick(e) {
+    e.preventDefault();
+
+
   }
 
   function navRegister() {
