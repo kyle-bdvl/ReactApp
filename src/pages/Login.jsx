@@ -28,10 +28,10 @@ export default function Login() {
     );
   }
 
-  function handleFormClick(e) {
-    e.preventDefault();
-
-
+  function handleFormClick(event) {
+    event.preventDefault();
+    // Mkaes it easy to retrieve all the data
+    new FormData(event.target); 
   }
 
   function navRegister() {
@@ -49,7 +49,7 @@ export default function Login() {
         </form>
 
         <p>Do not have an account ? </p>
-        <Button type="button" onClick={navRegister}>Register</Button>
+        <Button type="button" onClick={()=>navRegister()}>Register</Button>
       </div>
 
     </div>

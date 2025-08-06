@@ -33,9 +33,15 @@ export default function Register() {
   }
 
   // Client side validation 
-  function handleSubmit(e) {
-    e.preventDefault()
+  function handleSubmit(event) {
+    event.preventDefault()
     const errs = validation();
+
+    const fd = new FormData(event.target);
+    // gives an array of all input fields
+    const data = Object.fromEntries(fd.entries())
+
+
 
     // to check if there are keys from the useState --> setErrors object 
     if (Object.keys(errs).length === 0) {
@@ -53,12 +59,12 @@ export default function Register() {
         <form className="flex flex-col gap-4 mb-4" onSubmit={handleSubmit}>
           <Input label="Username" ref={usernameRef} />
           {errors.username && <p className="text-red-500 font-bold text-sm">{errors.username}</p>}
-          <Input label="Email" ref={emailRef} type="text" />
+          <Input label="Email" ref={emailRef} type="text" name="email"/>
           {errors.email && <p className="text-red-500 font-bold text-sm">{errors.email}</p>}
           {errors.emailValid && <p className="text-red-500 font-bold text-sm">{errors.emailValid}</p>}
-          <Input label="Password" ref={passwordRef} type="password" />
+          <Input label="Password" ref={passwordRef} type="password" name="password" />
           {errors.password && <p className="text-red-500 font-bold text-sm">{errors.password}</p>}
-          <Input label="Confirm Password" ref={confirmPasswordRef} type="password" />
+          <Input label="Confirm Password" ref={confirmPasswordRef} type="password" name="confirmPassword" />
           {errors.confirmPassword && <p className="text-red-500 font-bold text-sm">{errors.confirmPassword}</p>}
           {errors.matching && <p className="text-red-500 font-bold text-sm">{errors.matching}</p>}
 
