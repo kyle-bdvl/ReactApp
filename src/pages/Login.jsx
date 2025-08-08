@@ -44,6 +44,7 @@ export default function Login() {
 
         <form className="flex flex-col gap-4 mb-4">
           <Input label="Username" ref={username} required />
+          {errors.username && <p>{errors.username}</p>}
           <Input label="Password" ref={password} type="password" required />
           <Button type="submit" onClick={handleFormClick}>Login</Button>
         </form>

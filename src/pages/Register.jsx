@@ -19,37 +19,58 @@ export default function Register() {
     let confirmPassword = confirmPasswordRef.current.value.trim()
     let email = emailRef.current.value.trim()
 
-      let newError = {};
-      if (!username) newError.username = "Invalid Username";
-      if (!password) newError.password = "Invalid password";
-      if (!confirmPassword) newError.confirmPassword = "Invalid password";
-      if (!email) newError.email = "Invalid Email";
-      if (confirmPassword !== password) newError.matching = "passwords are not matching";
-      if (!emailRegex.test(email) ) newError.emailValid ="Email is not valid"
+    let newError = {};
+    if (!username) newError.username = "Invalid Username";
+    if (!password) newError.password = "Invalid password";
+    if (!confirmPassword) newError.confirmPassword = "Invalid password";
+    if (!email) newError.email = "Invalid Email";
+    if (confirmPassword !== password) newError.matching = "passwords are not matching";
+    if (!emailRegex.test(email)) newError.emailValid = "Email is not valid"
 
-      setErrors(newError);
-      return newError;
-    
+    setErrors(newError);
+    return newError;
+
   }
 
-  // Client side validation 
-  function handleSubmit(event) {
-    event.preventDefault()
-    const errs = validation();
 
+  async function handleSubmit(event) {
+    event.preventDefault()
     const fd = new FormData(event.target);
     // gives an array of all input fields
     const data = Object.fromEntries(fd.entries())
-
-
-
-    // to check if there are keys from the useState --> setErrors object 
-    if (Object.keys(errs).length === 0) {
-      console.log("submit form")
+    console.log(data)
+    // Client side validation
+    const errs = validation();
+    if (Object.keys(errs).length > 0) {
+      console.log("Theres still Errors", errs)
+      return 
     }
 
+    try {
+      const res = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+      });
+      
+      const resData  = await res.json();
+      alert(resData.message || "User registered successfully!");
+      if (!res.ok)
+        throw new Error(data.message)
+
+    }
+    catch (err) {
+      console.error(err);
+      alert("error registering user")
+    }
 
   }
+
+  // to check if there are keys from the useState --> setErrors object 
+
+
 
   return (
     <div className=" text-amber-50 flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-500  to-stone-500">
@@ -57,9 +78,9 @@ export default function Register() {
         <h1 className="text-2xl mb-4">Register Page</h1>
 
         <form className="flex flex-col gap-4 mb-4" onSubmit={handleSubmit}>
-          <Input label="Username" ref={usernameRef} />
+          <Input label="Username" ref={usernameRef} name="username" />
           {errors.username && <p className="text-red-500 font-bold text-sm">{errors.username}</p>}
-          <Input label="Email" ref={emailRef} type="text" name="email"/>
+          <Input label="Email" ref={emailRef} type="text" name="email" />
           {errors.email && <p className="text-red-500 font-bold text-sm">{errors.email}</p>}
           {errors.emailValid && <p className="text-red-500 font-bold text-sm">{errors.emailValid}</p>}
           <Input label="Password" ref={passwordRef} type="password" name="password" />
