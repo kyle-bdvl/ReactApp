@@ -2,7 +2,7 @@
   "name": "reactapp",
   "private": true,
   "version": "0.0.0",
-  "proxy":"http://localhost:5000",
+  "proxy": "http://localhost:5000",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router": "^7.7.1",
     "react-router-dom": "^7.7.1",
     "tailwindcss": "^4.1.11"

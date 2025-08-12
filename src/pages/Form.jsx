@@ -1,7 +1,9 @@
+import Header from '../components/Header';
 export default function Form(){
   return(
-    <h1>
-      Form Page
-    </h1>
+    <>
+      <Header/>
+      
+    </>
   )
 }

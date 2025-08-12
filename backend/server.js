@@ -48,8 +48,28 @@ app.post("/api/register", (req, res) => {
 })
 
 // for the login page 
-app.get("/api/login", (req, res) => {
-  const loginUser = req.body
+app.post("/api/login", (req, res) => {
+  const {username, password} = req.body 
+
+  // validate if all the input fields were filled 
+  if (!username || !password){ 
+    return res.status(400).json({message: "all input fields are required"})
+  }
+  let users = []
+  if (fs.existsSync(DataFile)){
+    users = JSON.parse(fs.readFileSync(DataFile,"utf-8"));
+  }
+
+  const user = users.find(
+    user => user.username === username && user.password === password
+  )
+
+  if (!user){ 
+    return res.status(401).json({message: "Invalid credentials"});
+  }
+
+  res.json({message : "Login Successful", user: {username: user.username, email: user.email }})
+
 })
 
 // start the backend 
