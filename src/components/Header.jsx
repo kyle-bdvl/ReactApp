@@ -14,7 +14,6 @@ export default function Header({ buttonName }) {
     }
   }
 
-
   return (
     <header className="bg-stone-500 p-6 shadow-lg">
       <div className="max-w-6xl mx-auto flex items-center justify-between">

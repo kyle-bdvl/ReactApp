@@ -64,6 +64,7 @@ export default function Register() {
         throw new Error(data.message)
       else {
          dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
+         
       }
 
     }
