@@ -57,8 +57,14 @@ export default function Register() {
       
       const resData  = await res.json();
       alert(resData.message || "User registered successfully!");
+
+      
+
       if (!res.ok)
         throw new Error(data.message)
+      else {
+         dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
+      }
 
     }
     catch (err) {

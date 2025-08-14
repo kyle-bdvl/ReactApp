@@ -4,5 +4,11 @@
     "email": "test@gmail.com",
     "password": "123",
     "confirmPassword": "123"
+  },
+  {
+    "username": "Xin Sheng",
+    "email": "tanXinSheng@gmail.com",
+    "password": "123",
+    "confirmPassword": "123"
   }
 ]

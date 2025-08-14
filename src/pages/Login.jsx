@@ -58,7 +58,7 @@ export default function Login() {
       if (res.ok) {
         navi('/form')
         dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
-      }
+      } 
     } catch (err) {
       console.error(err)
     }

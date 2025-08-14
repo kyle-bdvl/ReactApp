@@ -1,7 +1,9 @@
-export default function Table(){
-  return(
-    <h1>
-      Table Page
-    </h1>
+import Header from '../components/Header';
+export default function Table() {
+  return (
+    <>
+      <Header buttonName="Forms"/>
+
+    </>
   )
 }

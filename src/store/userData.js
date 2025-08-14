@@ -4,6 +4,7 @@ user data
 username
 user email 
 this is to show in the header 
+
 */
 
 const initialState = { 
@@ -15,7 +16,7 @@ const userDetailSlice = createSlice({
   name: 'userDetail',
   initialState, 
   reducers: {
-    loadUserDetail(state,action){
+    setUserDetail(state,action){
       state.username = action.payload.username;
       state.email = action.payload.email;
     },
