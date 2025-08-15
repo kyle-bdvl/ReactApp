@@ -2,17 +2,19 @@ const express = require('express')
 const cors = require('cors');
 const logger = require('./middleware/logger')
 const userRoutes = require('./routes/userRoutes')
-const fs = require('fs');
+const formRoutes = require('./routes/formRoutes');
 const app = express()
 
-const DataFile = './data/data.json'
 
 // middleware 
 app.use(cors());
 app.use(express.json());
-
-// route for the api 
+app.use(logger) // Register logger middleware over here !
+// route for the api Users 
 app.use("/api", userRoutes );
+
+// route for the api formFillers
+app.use("/api", formRoutes);
 
 // start the backend 
 app.listen(5000, () => {

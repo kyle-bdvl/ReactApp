@@ -24,17 +24,17 @@ exports.loginUser = (req,res)=>{
   res.json({message : "Login Successful", user: {username: user.username, email: user.email }})
 };
 
+
+
 exports.registerUser = (req, res) => {
   let existData = []
   const { username, email, password, confirmPassword } = req.body
 
   // Doing server side validation 
-  if (!username, !email, !password, !confirmPassword) {
+  if (!username || !email || !password || !confirmPassword) {
     return res.send(400).json({ message: "All Fields are required" })
   }
-
   // Read the current data in the file 
-  
   if (fs.existsSync(DataFile)) {
     existData = JSON.parse(fs.readFileSync(DataFile, "utf-8"));
   }
@@ -51,7 +51,6 @@ exports.registerUser = (req, res) => {
     return res.status(409).json({message:"Email already registered"});
   }
   
-
   // add new user to List 
   const newUser = { username, email, password, confirmPassword }
   existData.push(newUser)

@@ -32,7 +32,6 @@ export default function Register() {
 
   }
 
-
   async function handleSubmit(event) {
     event.preventDefault()
     const fd = new FormData(event.target);
@@ -61,7 +60,7 @@ export default function Register() {
       
 
       if (!res.ok)
-        throw new Error(data.message)
+        throw new Error(resData.message)
       else {
          dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
          
@@ -76,8 +75,6 @@ export default function Register() {
   }
 
   // to check if there are keys from the useState --> setErrors object 
-
-
 
   return (
     <div className=" text-amber-50 flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-500  to-stone-500">
