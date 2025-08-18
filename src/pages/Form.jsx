@@ -13,6 +13,7 @@ export default function Form() {
   useEffect(() => {
     console.log("Errors updated ", errors);
   }, [errors])
+  console.log(localStorage)
 
 
   function validateForm(data) {
