@@ -2,7 +2,11 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import{setUserDetail} from '../store/userData.js';
 export default function Register() {
+  // using the dispatch 
+  const dispatch = useDispatch();
   // use state to handle the errors 
   const [errors, setErrors] = useState({})
   // declaring all the refs 
@@ -79,7 +83,7 @@ export default function Register() {
   return (
     <div className=" text-amber-50 flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-500  to-stone-500">
       <div className="bg-cyan-500 backdrop-blur-md shadow-2xl rounded-xl p-10 w-full max-w-md text-center border border-white/20">
-        <h1 className="text-2xl mb-4">Register Page</h1>
+        <h1 className="text-2xl mb-4">Register As Leader</h1>
 
         <form className="flex flex-col gap-4 mb-4" onSubmit={handleSubmit}>
           <Input label="Username" ref={usernameRef} name="username" />
