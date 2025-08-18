@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {loginUser} = require('../controller/controller')
-const {registerUser} = require('../controller/controller')
+const {loginUser} = require('../controller/userController')
+const {registerUser} = require('../controller/userController')
 
 // if the await fetches this url then it would be directed towards it
 router.post('/login',loginUser);

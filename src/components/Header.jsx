@@ -6,7 +6,7 @@ export default function Header({ buttonName }) {
   const navi = useNavigate();
   // function for user to navigate to the table pages to view the forms they filled up
   function handleNavPage() {
-    if (buttonName === "Tables") {
+    if (buttonName === "Members") {
       navi('/table')
     }
     else {

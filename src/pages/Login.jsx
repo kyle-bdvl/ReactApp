@@ -6,20 +6,21 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 export default function Login() {
   const [errors, setErrors] = useState({})
-  const username = useRef();
-  const password = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const navi = useNavigate();
   // this is the dispatch 
   const dispatch = useDispatch();
 
   function validation() {
-    const usernameForm = username.current.value.trim();
-    const passwordForm = password.current.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailForm = emailRef.current.value.trim();
+    const passwordForm = passwordRef.current.value.trim();
 
     let newError = {}
 
-    if (!usernameForm)
-      newError.username = "username invalid";
+    if (!emailForm)
+      newError.email = "email invalid";
     else {
       delete newError.username;
     }
@@ -27,6 +28,8 @@ export default function Login() {
       newError.password = "password invalid"
     else
       delete newError.password
+
+    if (!emailRegex.test(emailForm)) newError.emailValid = "Email is not valid"
 
     setErrors(newError);
     return newError
@@ -78,9 +81,9 @@ export default function Login() {
         <h1 className="text-2xl mb-4">Login Page</h1>
 
         <form className="flex flex-col gap-4 mb-4" onSubmit={handleFormClick}>
-          <Input label="Username" ref={username} name="username" />
-          {errors.username && <p className="text-red-500 font-bold text-sm">{errors.username}</p>}
-          <Input label="Password" ref={password} type="password" name="password" />
+          <Input label="Email" ref={emailRef} name="email" />
+          {errors.email && <p className="text-red-500 font-bold text-sm">{errors.email}</p>}
+          <Input label="Password" ref={passwordRef} type="password" name="password" />
           {errors.password && <p className="text-red-500 font-bold text-sm" >{errors.password}</p>}
           <Button type="submit">Login</Button>
         </form>

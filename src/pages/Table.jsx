@@ -3,7 +3,7 @@ export default function Table() {
   return (
     <>
       <Header buttonName="Forms"/>
-
+      
     </>
   )
 }

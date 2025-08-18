@@ -16,27 +16,35 @@ pool.getConnection((err,connection)=>{
 });
 
 
-exports.loginUser = (req, res) => {
-  const { username, password } = req.body
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body
 
   // validate if all the input fields were filled 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.status(400).json({ message: "all input fields are required" })
   }
-  let users = []
-  if (fs.existsSync(DataFile)) {
-    users = JSON.parse(fs.readFileSync(DataFile, "utf-8"));
+
+  try { 
+    const [rows] = await pool.query(
+      'SELECT * FROM admin_users WHERE email = ? AND password =?',
+      [email,password]
+    );
+    if (rows.length ===0){
+      return res.status(401).json({message:"Invalid credentials"});
+    }
+
+    const user = rows[0];
+    return res.json({
+      message:"Login Successful",
+      user:{username:user.username, email : user.email},
+    });
+  }
+  catch(err){
+    console.error(err);
+    return res.status(500).json({message:"Database Error"});
   }
 
-  const user = users.find(
-    user => user.username === username && user.password === password
-  )
-
-  if (!user) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  res.json({ message: "Login Successful", user: { username: user.username, email: user.email } })
+  
 };
 
 
