@@ -59,13 +59,14 @@ export default function Login() {
       alert(resData.message || "Login Success!")
 
       if (res.ok) {
-        navi('/form')
-        dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
+        dispatch(setUserDetail({ username: resData.user.username, email: resData.user.email }))
         localStorage.setItem(
-          "userDetail", 
-          JSON.stringify({username: resData.user.username, email:resData.user.email})
-         )
-      } 
+          "userDetail",
+          JSON.stringify({ username: resData.user.username, email: resData.user.email })
+        )
+        localStorage.setItem("authToken", resData.token);
+        navi('/form');
+      }
     } catch (err) {
       console.error(err)
     }

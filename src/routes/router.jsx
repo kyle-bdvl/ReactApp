@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import App from '../App';
-
+import MemberDetail from '../pages/MemberDetails';
 import Login from "../pages/Login";
 import Register from "../pages/Register"
-import Table from "../pages/Table"; 
+import Member from "../pages/Member"; 
 import Form from "../pages/Form";
 
 const router = createBrowserRouter([
@@ -13,7 +13,12 @@ const router = createBrowserRouter([
     children:[
       {index:true, element:<Login/>},
       {path:'register',element:<Register/>},
-      {path:'table', element:<Table/>},
+      {path:'member', 
+      element:<Member/>,
+      children:[
+        {path: ":memberId",element:<MemberDetail/>}
+      ]
+      },
       {path:'form',element:<Form/>}
     ]
   }

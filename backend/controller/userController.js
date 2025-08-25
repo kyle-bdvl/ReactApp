@@ -1,7 +1,7 @@
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 const config = require('../config');
-
 // creating a pool for the queries 
 const pool = mysql.createPool(config.db);
 
@@ -17,6 +17,11 @@ pool.getConnection((err,connection)=>{
 
 
 exports.loginUser = async (req, res) => {
+  console.log("Headers:", req.headers['content-type']);
+  console.log("Raw body received:", req.body);
+  if (!req.body || typeof req.body !== 'object') {
+    return res.status(400).json({ message: "No JSON body received" });
+  }
   const { email, password } = req.body
 
   // validate if all the input fields were filled 
@@ -32,21 +37,32 @@ exports.loginUser = async (req, res) => {
     if (rows.length ===0){
       return res.status(401).json({message:"Invalid credentials"});
     }
-
     const user = rows[0];
+    // adding JWT payload 
+    const payload = {username: user.username, email :user.email};
+
+    if (!process.env.ACCESS_TOKEN_SECRET){
+      console.error("missing ACCESS_TOKEN_SECRET");
+      return res.status(500).json({message: "Server config error"})
+    }
+
+    const token = jwt.sign(
+      payload, 
+      process.env.ACCESS_TOKEN_SECRET,
+      {expiresIn: process.env.TOKEN_EXPIRES|| '30m'}
+    )
+    console.log("Issued JWT (dev):", token);
     return res.json({
       message:"Login Successful",
       user:{username:user.username, email : user.email},
+      token
     });
   }
   catch(err){
     console.error(err);
     return res.status(500).json({message:"Database Error"});
   }
-
-  
 };
-
 
 
 exports.registerUser = async (req, res) => {

@@ -48,14 +48,20 @@ export default function Form() {
 
     //backend code  
     try {
+      const token = localStorage.getItem("authToken");
       const res = await fetch("http://localhost:5000/api/formFilled",{
         method : "POST", 
         headers : {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token|| ""}`
         },
         body : JSON.stringify({...rawData,  email})
       });
-
+      if (res.status === 401 || res.status === 403) {
+        alert("Session expired. Please login again.");
+        localStorage.removeItem("authToken");
+        return;
+      }
       const data = await res.json();
       alert(data.message);
 

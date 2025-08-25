@@ -15,6 +15,9 @@ pool.getConnection((err, connection) => {
 })
 
 exports.formFilled = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" }); // should be set by auth middleware
+  }
   // fill controller code
   const { memberName, phone, hobby, job, email } = req.body
 
@@ -46,8 +49,12 @@ exports.formFilled = async (req, res) => {
 }
 
 exports.memberData = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   // using the admin email by quering it 
-  const { email } = req.query;
+  // const { email } = req.query;
+  const email = req.user.email;
   try {
     const [results] = await pool.query(
       "SELECT member_name,member_id FROM members where admin_email=?",
@@ -64,4 +71,26 @@ exports.memberData = async (req, res) => {
     res.status(500).json({ message: "Database Error from backend!" });
   }
 
-} //closing of the api 
+} //closing of the api
+
+exports.memberFullDetails = async (req,res)=>{
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const adminEmail = req.user.email;
+  const {memberId} = req.params;
+  try{
+    const[result] = await pool.query(
+      "SELECT member_name, member_id , phone_number, hobby, job FROM members WHERE member_id=? AND admin_email=?",
+      [memberId,adminEmail]
+    );
+
+    if (result.length ===0){
+      return res.status(409).json({message:"member doesn't exist"});
+    }
+    res.json(result[0])
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ message: "Database Error from backend!" });
+  }
+}
