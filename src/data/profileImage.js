@@ -1,4 +1,4 @@
-const heads = ["spider","zombie","creeper","villager","enderman","alex"]
+const heads = ["spider","zombie","creeper","villager","enderman","alex","EinfxchJohn","SpiritOfMoon","Notch","xmmune","DarkEyeDragon"]
 
 export async function profileImage(){ 
   try{

@@ -11,7 +11,7 @@ export default function Header({ buttonName }) {
   const navi = useNavigate();
   const classButton = "bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg shadow hover:bg-indigo-50 transition"
   
-  // useEffect 
+  // useEffect to mount the API and not run it in an infinite loop 
   useEffect(() => {
     if (avatarSrc) return; //already have in local storage
     let current = true 
@@ -32,7 +32,29 @@ export default function Header({ buttonName }) {
     }
     loadImage();
     return () => { current = false };
-  }, [avatarSrc]);
+  }, []);
+
+  // Chaning profile picture if i press on the pic 
+  function handleChangePicture(){ 
+    let current= true;
+    async function loadImage() {
+      setLoading(true)
+      try {
+        const url = await profileImage();
+        if (current) {
+          setAvatarSrc(url)
+          localStorage.setItem('avatarUrl', url)
+        }
+      }
+      catch (e) {
+        console.error("avatar loaded failed ", e);
+      } finally {
+        if (current) setLoading(false)
+      }
+    }
+    loadImage();
+  }
+
   // function for user to navigate to the table pages to view the forms they filled up
   function handleNavPage() {
     if (buttonName === "Members") {
@@ -55,8 +77,9 @@ export default function Header({ buttonName }) {
           {loading ? <p>loading...</p> :
             <img
               src={avatarSrc}
-              className="w-20 h-20 rounded-full ring-2 ring-white object-cover"
+              className="w-20 h-20 rounded-full ring-2 ring-white object-cover hover:cursor-pointer"
               draggable="false"
+              onClick={handleChangePicture}
             />}
           <div>
             <h1 className="text-3xl font-bold text-white tracking-wide">

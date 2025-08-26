@@ -39,7 +39,7 @@ export default function MemberDetails() {
         return;
       }
       if (!res.ok) {
-        setError("Failed to fetch member details");
+        setError("Member not found in URL go back to members");
         return;
       }
       const detail = await res.json();
@@ -67,10 +67,6 @@ export default function MemberDetails() {
       <div className="mt-6 flex flex-col items-center space-y-4">
         <p className="text-red-600">{error}</p>
         <div className="space-x-3">
-          <button
-            onClick={handleRetry}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >Retry</button>
           <button
             onClick={backToList}
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
