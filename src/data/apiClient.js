@@ -28,5 +28,6 @@ export async function apiFetch(url, options = {}) {
       throw new Error('Session expired');
     }
   }
+  console.log(res)
   return res;
 }

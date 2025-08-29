@@ -3,7 +3,12 @@ import Button from '../components/Button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { profileImage } from '../data/profileImage';
+// for clearing the token 
+import { useDispatch } from 'react-redux';
+import{clearAccessToken} from '../store/authToken';
 export default function Header({ buttonName }) {
+  const dispatch = useDispatch()
+
   // useState for profile image 
   const [avatarSrc, setAvatarSrc] = useState(()=>localStorage.getItem('avatarUrl')||"");
   const [loading, setLoading] = useState(false);
@@ -67,7 +72,7 @@ export default function Header({ buttonName }) {
   function handleLogout() {
     navi('/');
     setAvatarSrc("");
-    localStorage.clear();
+    dispatch(clearAccessToken())
   }
 
   return (
