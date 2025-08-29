@@ -62,22 +62,18 @@ export default function Register() {
       alert(resData.message || "User registered successfully!");
 
       
-
       if (!res.ok)
         throw new Error(resData.message)
       else {
          dispatch(setUserDetail({username: resData.user.username, email: resData.user.email}))
          
       }
-
     }
     catch (err) {
       console.error(err);
       alert("error registering user")
     }
-
   }
-
   // to check if there are keys from the useState --> setErrors object 
 
   return (
@@ -102,10 +98,7 @@ export default function Register() {
             <Button type="submit" >Register</Button>
           </div>
         </form>
-
-
       </div>
-
     </div>
   )
 }

@@ -76,7 +76,7 @@ export default function MemberDetails() {
   if (!memberDetail) return null;
 
   return (
-  <div className="flex justify-center items-start bg-white p-6">
+  <div className="flex justify-center items-start bg-white p-6 mt-4">
     <div className="w-full max-w-sm bg-white shadow-xl rounded-2xl p-6 border border-gray-200">
       <div className="flex flex-col items-center text-center">
         {/* Avatar circle */}
