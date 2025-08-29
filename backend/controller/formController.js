@@ -62,7 +62,7 @@ exports.memberData = async (req, res) => {
     );
 
     if (results.length === 0) {
-      return res.status(409).json({ message: "no members under this admin" });
+      return res.status(200).json([]);
     }
     res.json(results)
   }
@@ -86,7 +86,7 @@ exports.memberFullDetails = async (req,res)=>{
     );
 
     if (result.length ===0){
-      return res.status(409).json({message:"member doesn't exist"});
+      return res.status(404).json({message:"member doesn't exist"});
     }
     res.json(result[0])
   }catch(error){

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserDetail } from '../store/userData';
+import { setAccessToken } from '../store/authToken';
 import Button from '../components/Button'
 import Input from '../components/Input'
 export default function Login() {
@@ -41,7 +42,7 @@ export default function Login() {
     const fd = new FormData(event.target);
     // to retrieve the data from the form 
     const dataForm = Object.fromEntries(fd.entries())
-    console.log(dataForm)
+    console.log("from dataForm" , dataForm)
     const errs = validation()
     if (Object.keys(errs).length > 0) {
       console.log("Theres still Errors", errs)
@@ -53,6 +54,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials:"include",
         body: JSON.stringify(dataForm)
       });
       const resData = await res.json()
@@ -60,11 +62,8 @@ export default function Login() {
 
       if (res.ok) {
         dispatch(setUserDetail({ username: resData.user.username, email: resData.user.email }))
-        localStorage.setItem(
-          "userDetail",
-          JSON.stringify({ username: resData.user.username, email: resData.user.email })
-        )
-        localStorage.setItem("authToken", resData.token);
+       
+        dispatch(setAccessToken(resData.token));
         navi('/form');
       }
     } catch (err) {

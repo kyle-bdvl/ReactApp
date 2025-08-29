@@ -6,11 +6,10 @@ user email
 this is to show in the header 
 
 */
-// from local Storage
-const savedUser = JSON.parse(localStorage.getItem("userDetail") || "{}")
+
 const initialState = { 
-  username: savedUser.username|| "",
-  email : savedUser.email ||""
+  username:  "",
+  email : ""
 }
 
 const userDetailSlice = createSlice({

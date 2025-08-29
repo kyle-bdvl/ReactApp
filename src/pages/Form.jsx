@@ -1,14 +1,15 @@
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { apiFetch } from '../data/apiClient';
 export default function Form() {
   let formClass = " w-full h-screen bg-gray-300 shadow-md border border-gray-200 p-10 space-y-6 "
   const [errors, setErrors] = useState({});
 
   // retrieving admin email from the store 
-  const {email} = useSelector(state=> state.userDetail);
+  const { email } = useSelector(state => state.userDetail);
   // using a useEffect to track the errors in the console.log 
   useEffect(() => {
     console.log("Errors updated ", errors);
@@ -36,7 +37,7 @@ export default function Form() {
     // fd short for form data  
     const fd = new FormData(event.target);
     const rawData = Object.fromEntries(fd.entries())
-    console.log({...rawData, email})
+    console.log({ ...rawData, email })
     let errs = validateForm(rawData)
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -49,24 +50,22 @@ export default function Form() {
     //backend code  
     try {
       const token = localStorage.getItem("authToken");
-      const res = await fetch("http://localhost:5000/api/formFilled",{
-        method : "POST", 
-        headers : {
+      const res = await apiFetch("http://localhost:5000/api/formFilled", {
+        method: "POST",
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token|| ""}`
         },
-        body : JSON.stringify({...rawData,  email})
+        body: JSON.stringify({ ...rawData, email })
       });
       if (res.status === 401 || res.status === 403) {
         alert("Session expired. Please login again.");
-        localStorage.removeItem("authToken");
         return;
       }
       const data = await res.json();
       alert(data.message);
 
-    }catch(err){ 
-      console.log(err , "from console.errs");
+    } catch (err) {
+      console.log(err, "from console.errs");
     }
   }
   return (
@@ -75,7 +74,7 @@ export default function Form() {
 
       <form className={formClass} onSubmit={handleSubmitForm} >
         <h1 className='font-bold text-4xl'>Member Form</h1>
-        <Input label="Member Name" name="memberName" placeholder="John Doe"/>
+        <Input label="Member Name" name="memberName" placeholder="John Doe" />
         {errors.member && <p className="text-red-500 font-bold text-sm">{errors.member}</p>}
         <Input label="Phone Number" name="phone" placeholder="012-345-6789" />
         {errors.phone && <p className="text-red-500 font-bold text-sm">{errors.phone}</p>}

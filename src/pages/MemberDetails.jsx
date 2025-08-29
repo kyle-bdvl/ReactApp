@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
-
+import { useSelector } from "react-redux";
+import { apiFetch } from '../data/apiClient';
 export default function MemberDetails() {
   const { memberId } = useParams();
   const navi = useNavigate();
@@ -8,6 +9,7 @@ export default function MemberDetails() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const token = useSelector(state=>state.authToken.accessToken);
   useEffect(() => {
     // reset state whenever URL param changes
     setError("");
@@ -18,29 +20,26 @@ export default function MemberDetails() {
   }, [memberId]);
 
   async function fetchMemberDetails(id) {
-    const token = localStorage.getItem("authToken");
     if (!token) {
-      navi('/');
+      setError("access to user Denied. Login using a different account")
       return;
     }
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/members/${id}`, {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
-      if (res.status === 401 || res.status === 403) {
+      const res = await apiFetch(`http://localhost:5000/api/members/${id}`);
+      if (res.status===401||res.status===403){
         setError("Unauthorized or session expired");
-        localStorage.removeItem("authToken");
-        navi('/');
         return;
       }
-      if (res.status === 404) {
-        setError("Member not found");
+
+      if (res.status===404){
+        setError("member not found");
         return;
       }
-      if (!res.ok) {
-        setError("Member not found in URL go back to members");
-        return;
+
+      if (!res.ok){
+        setError("member not found in URL go back to members");
+        return; 
       }
       const detail = await res.json();
       setMemberDetail(detail);
@@ -51,9 +50,7 @@ export default function MemberDetails() {
     }
   }
 
-  function handleRetry() {
-    if (memberId) fetchMemberDetails(memberId);
-  }
+
   function backToList() {
     navi('/member');
   }

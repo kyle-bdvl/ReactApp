@@ -32,7 +32,7 @@ export default function Header({ buttonName }) {
     }
     loadImage();
     return () => { current = false };
-  }, []);
+  }, [avatarSrc]);
 
   // Chaning profile picture if i press on the pic 
   function handleChangePicture(){ 

@@ -1,10 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
 // Merging all the slices together 
 import userDetailReducer from './userData'
-
+import authTokenReducer from './authToken';
 const store = configureStore({
   reducer: { 
-    userDetail : userDetailReducer
+    userDetail : userDetailReducer,
+    authToken : authTokenReducer
   }
 });
 

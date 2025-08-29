@@ -4,11 +4,11 @@ import Header from '../components/Header';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../data/apiClient';
 export default function Member() {
   const navi = useNavigate();
-  // retrieving admin email from the store not needed any more because JWT token stores the email
-  const { email } = useSelector(state => state.userDetail);
-  // let emailChange = "kyle.boudville@gmail.com"
+  
+  const token = useSelector(state=>state.authToken.accessToken)
   // having a useState to retrieve the data from the useEffect 
   const [memberData, setMemberData] = useState([]);
 
@@ -16,29 +16,24 @@ export default function Member() {
   useEffect(() => {
     async function fetchMembers() {
       try {
-        const token = localStorage.getItem("authToken");
-        const res = await fetch(`http://localhost:5000/api/members`, {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
-        if (res.status === 401 || res.status === 403) {
-        console.warn("Unauthorized/Expired Token");
-        localStorage.removeItem("authToken");
-        return;
-      }
-        if (!res.ok) {
-          throw new Error('Failed to fetch members name')
+        const res = await apiFetch(`http://localhost:5000/api/members`);
+        if (res.status === 401 || res.status === 403){
+          console.warn("Unauthorized / Expired Token");
+          navi('/');
+          return;
+        }
+
+        if(!res.ok){
+          throw new Error('failed to fetch member name');
         }
         const names = await res.json();
-        setMemberData(names)
-        console.log("Fetched members from da function  : ", names);
-      } catch (err) {
-        console.error("Frontend Error : ", err.message);
+        setMemberData(names);
+      }catch(err){
+        console.error("frontend error: ", err.message);
       }
     }
-    if (email) fetchMembers();
-  }, [email,navi])
+    fetchMembers();
+  },[navi]);
 
   console.log("Usestate ", memberData);
 
