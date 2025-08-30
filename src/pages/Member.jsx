@@ -40,19 +40,21 @@ export default function Member() {
   }, [navi]);
 
   console.log("Usestate ", memberData);
+  // To filter out the memberData the fetched Member 
   let filteredMembers = memberData.filter(member => member.member_name.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <>
       <Header buttonName="Forms" />
 
-      <ul className="mt-6 p-4 bg-white rounded-2xl shadow-md w-full max-w-md mx-auto space-y-3">
+      <ul className="mt-6 p-4 bg-white rounded-2xl max-h-50 overflow-auto shadow-md w-full max-w-md mx-auto space-y-3">
+
         <Input searchBar={true} type="text" value={search} onChange={(e) => setSearch(e.target.value)}></Input>
         {filteredMembers.length === 0 ? (<p>No members found </p>) :
           (filteredMembers.map((member) => (
             <li
               key={member.member_id}
-              className="flex items-center justify-between p-3 mb-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+              className="flex items-center justify-between  p-3 mb-3 rounded-xl bg-gray-100  hover:bg-gray-200 transition-colors duration-200"
             >
               <span className="font-medium text-gray-800">{member.member_name}</span>
               <Link
@@ -61,11 +63,12 @@ export default function Member() {
                 View details
               </Link>
             </li>
-            )
+          )
           ))//end of ternary operator bracket
         }
 
       </ul>
+
       <Outlet />
     </>
 

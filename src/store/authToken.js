@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+// basically declaring the "type safety"
 const initialState={
   accessToken:'',
   lastRefresh:0,
@@ -32,7 +33,7 @@ const authSlice = createSlice({
     },
   }
 });
-
+// All reducers needs to be exported
 export const { 
   setAccessToken, 
   clearAccessToken,
